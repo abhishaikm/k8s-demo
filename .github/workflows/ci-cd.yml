@@ -1,24 +1,29 @@
 name: CI/CD pipeline
-  on:
-    push:
-      branches:
-        -main
 
-  jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps: 
-        -name: checkout code
-        uses: actions/checkout@v3
-        -name: setup node.js
-        uses: actions/setup-node@v3
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-            node-version: 16
-        -name: install dependency
-        run: npm install
-        -name: Run tests
-        run: npm test
-    deploy:
-      steps:
-        -name: deploy to production
-        run: npm run
+          node-version: 16
+      - run: npm install
+      - run: npm test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run deploy
+
