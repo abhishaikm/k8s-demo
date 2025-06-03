@@ -5,6 +5,7 @@ on:
         -main
 
   jobs:
+  
     build:
       runs-on: ubuntu-latest
       steps: 
@@ -15,7 +16,7 @@ on:
         with:
             node-version: 16
         -name: install dependency
-        run: npm install
+        run: npm install       
         -name: Run tests
         run: npm test
     deploy:
